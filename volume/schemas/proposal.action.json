@@ -1,0 +1,130 @@
+{
+	"title": "Proposal",
+	"type": "object",
+	"required": ["name", "email", "ownerGroup"],
+	"properties": {
+		"name": {
+			"title": "Proposal ID",
+			"type": "text"
+		},
+		"pi_email": {
+			"title": "PI Email",
+			"type": "text"
+		},
+		"pi_firstname": {
+			"title": "PI Firstname",
+			"type": "text"
+		},
+		"pi_lastname": {
+			"title": "PI Lastname",
+			"type": "text"
+		},
+		"email": {
+			"title": "Email",
+			"type": "text"
+		},
+		"firstname": {
+			"title": "Firstname",
+			"type": "text"
+		},
+		"lastname": {
+			"title": "Lastname",
+			"type": "text"
+		},
+		"title": {
+			"title": "Title",
+			"type": "text"
+		},
+		"abstract": {
+			"title": "Abstract",
+			"type": "text"
+		},
+		"startTime": {
+			"title": "Start Time",
+			"type": "datetime"
+		},
+		"endTime": {
+			"title": "End Time",
+			"type": "datetime"
+		},
+		"ownerGroup": {
+			"title": "Owner Group",
+			"type": "text"
+		},
+		"accessGroups": {
+			"title": "Access Groups",
+			"type": "array",
+			"items": {
+				"title": "Access Group",
+				"type": "text"
+			}
+		},
+		"instrumentGroup": {
+			"title": "Instrument Group",
+			"type": "text"
+		},
+		"MeasurementPeriodList": {
+			"title": "Measurement Period List",
+			"type": "array",
+			"items": {
+				"title": "Measurement Period",
+				"type": "object",
+				"required": ["id", "instrument"],
+				"properties": {
+					"id": {
+						"title": "ID",
+						"type": "text"
+					},
+					"instrument": {
+						"title": "Instrument",
+						"type": "text"
+					},
+					"start": {
+						"title": "Start",
+						"type": "datetime"
+					},
+					"end": {
+						"title": "End",
+						"type": "datetime"
+					},
+					"comment": {
+						"title": "Comment",
+						"type": "text"
+					},
+					"createdBy": {
+						"title": "Created By",
+						"type": "text"
+					},
+					"createdAt": {
+						"title": "Created At",
+						"type": "datetime"
+					},
+					"updatedBy": {
+						"title": "Updated By",
+						"type": "text"
+					},
+					"updatedAt": {
+						"title": "Updated At",
+						"type": "datetime"
+					}
+				}
+			}
+		},
+		"createdBy": {
+			"title": "Created By",
+			"type": "text"
+		},
+		"createdAt": {
+			"title": "Created At",
+			"type": "datetime"
+		},
+		"updatedBy": {
+			"title": "Updated By",
+			"type": "text"
+		},
+		"updatedAt": {
+			"title": "Updated At",
+			"type": "datetime"
+		}
+	}
+}

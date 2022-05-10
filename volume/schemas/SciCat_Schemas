@@ -1,0 +1,115 @@
+Proposal {
+	proposalId (string),
+	pi_email (string, optional),
+	pi_firstname (string, optional),
+	pi_lastname (string, optional),
+	email (string),
+	firstname (string, optional),
+	lastname (string, optional),
+	title (string, optional),
+	abstract (string, optional),
+	startTime (string, optional),
+	endTime (string, optional),
+	ownerGroup (string),
+	accessGroups (Array[string], optional),
+	instrumentGroup (string, optional),
+	createdBy (string, optional),
+	updatedBy (string, optional),
+	MeasurementPeriodList (Array[MeasurementPeriod], optional),
+	createdAt (string, optional),
+	updatedAt (string, optional)
+}
+MeasurementPeriod {
+	id (string),
+	instrument (string),
+	start (string, optional),
+	end (string, optional),
+	comment (string, optional),
+	createdBy (string, optional),
+	updatedBy (string, optional),
+	createdAt (string, optional),
+	updatedAt (string, optional)
+}
+
+
+
+
+
+SciCatSample {
+	sampleId (string),
+	owner (string, optional),
+	description (string, optional),
+	sampleCharacteristics (object, optional),
+	isPublished (boolean, optional),
+	ownerGroup (string),
+	accessGroups (Array[string], optional),
+	instrumentGroup (string, optional),
+	createdBy (string, optional),
+	createdAt (string, optional),
+	updatedBy (string, optional),
+	updatedAt (string, optional)
+}
+
+
+
+
+
+
+RawDataset {
+	pid (string),
+	datasetName (string, optional),
+	owner (string),
+	orcidOfOwner (string, optional),
+	ownerEmail (string, optional),
+	principalInvestigator (string),
+	contactEmail (string),
+	creationLocation (string),
+	sampleId (string, optional),
+	proposalId (string, optional),
+	instrumentId (string, optional),
+	description (string, optional),
+	dataFormat (string, optional),
+	sourceFolder (string),
+	sourceFolderHost (string, optional),
+	size (number, optional),
+	packedSize (number, optional),
+	numberOfFiles (number, optional),
+	numberOfFilesArchived (number, optional),
+	type (string),
+	validationStatus (string, optional),
+	classification (string, optional),
+	license (string, optional),
+	version (string, optional),
+	dataQualityMetrics (number, optional),
+	comments (string, optional),
+	isPublished (boolean, optional),
+	keywords (Array[string], optional),
+	sharedWith (Array[string], optional),
+	history (Array[string], optional),
+	techniques (Array[Technique], optional)
+	scientificMetadata (object, optional),
+	datasetlifecycle (DatasetLifecycle, optional),
+	creationTime (string),
+	endTime (string, optional)
+}
+DatasetLifecycle {
+	id (string, optional)
+	archivable (boolean, optional),
+	retrievable (boolean, optional),
+	publishable (boolean, optional),
+	dateOfDiskPurging (string, optional),
+	archiveRetentionTime (string, optional),
+	dateOfPublishing (string, optional),
+	publishedOn (string, optional):,
+	isOnCentralDisk (boolean, optional),
+	archiveStatusMessage (string, optional):,
+	retrieveStatusMessage (string, optional),
+	archiveReturnMessage (object, optional),
+	retrieveReturnMessage (object, optional),
+	exportedTo (string, optional),
+	retrieveIntegrityCheck (boolean, optional),
+}
+Technique {
+	pid (string),
+	name (string)
+}
