@@ -3,3 +3,4 @@ __pycache__/
 
 logs/**
 volume/objects/**
+volume/timing/**

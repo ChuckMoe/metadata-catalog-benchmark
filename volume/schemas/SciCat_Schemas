@@ -39,7 +39,7 @@ SciCatSample {
 	sampleId (string),
 	owner (string, optional),
 	description (string, optional),
-	sampleCharacteristics (object, optional),
+	sampleCharacteristics (SampleCharacteristics, optional),
 	isPublished (boolean, optional),
 	ownerGroup (string),
 	accessGroups (Array[string], optional),
@@ -48,6 +48,9 @@ SciCatSample {
 	createdAt (string, optional),
 	updatedBy (string, optional),
 	updatedAt (string, optional)
+}
+SampleCharacteristics {
+
 }
 
 
@@ -87,10 +90,13 @@ RawDataset {
 	sharedWith (Array[string], optional),
 	history (Array[string], optional),
 	techniques (Array[Technique], optional)
-	scientificMetadata (object, optional),
+	scientificMetadata (ScientificMetadata, optional),
 	datasetlifecycle (DatasetLifecycle, optional),
 	creationTime (string),
 	endTime (string, optional)
+}
+ScientificMetadata {
+
 }
 DatasetLifecycle {
 	id (string, optional)

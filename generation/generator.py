@@ -1,65 +1,45 @@
-import json
-import uuid
-from datetime import datetime
-from os import listdir
-from pathlib import Path
-from random import randint
-from typing import Dict, List
+import logging
+
+from generation.sampledb import SampleDbFormatter
+from generation.scicat import SciCatFormatter
+from model.dataset import Dataset
+from model.proposal import Proposal
+from model.sample import Sample
+
+
+def generate(amount: int):
+    generator = Generator(amount=100)
+    generator.generate_proposals()
+    generator.generate_samples()
+    generator.generate_datasets()
 
 
 class Generator:
-	BASE_FOLDER = Path('/home/mhannemann/Workspace/benchmark-metadata-catalog/volume')
-	SCHEMA_FOLDER = BASE_FOLDER / 'schemas'
-	DATA_FOLDER = BASE_FOLDER / 'objects'
-	SUFFIX: str
+    def __init__(self, amount: int):
+        self.default_amount = amount
+        self.formatter = [SampleDbFormatter(), SciCatFormatter()]
 
-	TODAY = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    def generate_proposals(self, amount: int = None):
+        logging.info('Generate {} new Proposals'.format(amount))
+        amount = self.default_amount if amount is None else amount
+        data = [Proposal() for _ in range(amount)]
+        for formatter in self.formatter:
+            formatter.save_proposals(proposals=data)
 
-	def __init__(self, amount: int):
-		for file in listdir(self.SCHEMA_FOLDER):
-			if '.json' in file:
-				self.current_filename = file
-				with open(self.SCHEMA_FOLDER / file, 'r') as handler:
-					current_schema = json.load(handler)
-					data = [self.generate_data_object(schema=current_schema) for _ in range(amount)]
+    def generate_samples(self, amount: int = None):
+        logging.info('Generate {} new Samples'.format(amount))
+        amount = self.default_amount if amount is None else amount
+        data = [Sample() for _ in range(amount)]
+        for formatter in self.formatter:
+            formatter.save_samples(data)
 
-					with open(self.DATA_FOLDER / self.SUFFIX / file, 'w') as handler:
-						json.dump(data, handler)
+    def generate_datasets(self, amount: int = None):
+        logging.info('Generate {} new Datasets'.format(amount))
+        amount = self.default_amount if amount is None else amount
+        data = [Dataset() for _ in range(amount)]
+        for formatter in self.formatter:
+            formatter.save_datasets(data)
 
-	def generate_data_text(self) -> str:
-		return uuid.uuid4().__str__()
 
-	def generate_data_datetime(self) -> str:
-		return self.TODAY
-
-	def generate_data_number(self) -> int:
-		return randint(0, 99999)
-
-	def generate_data_bool(self) -> bool:
-		return True if randint(0, 1) == 1 else False
-
-	def generate_data_array(self, schema: Dict, amount: int = None) -> List:
-		schema = schema['items']
-		if amount is None:
-			amount = randint(0, 40)
-
-		return [self.generate_data_by_type(schema['type'], schema) for _ in range(amount)]
-
-	def generate_data_object(self, schema: Dict) -> Dict:
-		schema = schema['properties']
-		return {key: self.generate_data_by_type(schema[key]['type'], schema[key]) for key in schema.keys()}
-
-	def generate_data_by_type(self, data_type: str, schema: Dict):
-		if 'text' == data_type:
-			return self.generate_data_text()
-		elif 'bool' == data_type:
-			return self.generate_data_bool()
-		elif 'quantity' == data_type:
-			return self.generate_data_number()
-		elif 'datetime' == data_type:
-			return self.generate_data_datetime()
-		elif 'array' == data_type:
-			return self.generate_data_array(schema)
-		elif 'object' == data_type:
-			return self.generate_data_object(schema)
-
+if __name__ == '__main__':
+    generate(100)

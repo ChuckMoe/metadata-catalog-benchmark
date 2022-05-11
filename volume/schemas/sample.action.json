@@ -74,6 +74,10 @@
 				}
 			}
 		},
+		"isPublished": {
+			"title": "Is Published",
+			"type": "bool"
+		},
 		"ownerGroup": {
 			"title": "Owner Group",
 			"type": "text"

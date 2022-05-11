@@ -7,6 +7,10 @@
 			"title": "PID",
 			"type": "text"
 		},
+		"datasetName": {
+			"title": "Dataset Name",
+			"type": "text"
+		},
 		"owner": {
 			"title": "Owner",
 			"type": "text"
@@ -33,6 +37,10 @@
 		},
 		"instrumentId": {
 			"title": "Instrument ID",
+			"type": "text"
+		},
+		"creationLocation": {
+			"title": "Creation Location",
 			"type": "text"
 		},
 		"description": {
@@ -150,10 +158,21 @@
 			"title": "Scientific Metadata",
 			"type": "object",
 			"properties": {
-
+				"archivable": {
+					"title": "Archivable",
+					"type": "bool"
+				},
+				"retrievable": {
+					"title": "Retrievable",
+					"type": "bool"
+				},
+				"publishable": {
+					"title": "Publishable",
+					"type": "bool"
+				}
 			}
 		},
-		"datasetlifecycle": {
+		"datasetLifecycle": {
 			"title": "Dataset Lifecycle",
 			"type": "object",
 			"properties": {
@@ -227,6 +246,10 @@
 				"type": "text"
 			}
 		},
+		"instrumentGroup": {
+			"title": "Instrument Group",
+			"type": "text"
+		},
 		"createdBy": {
 			"title": "Created By",
 			"type": "text"
@@ -245,10 +268,6 @@
 		},
 		"creationTime": {
 			"title": "Creation Time",
-			"type": "datetime"
-		},
-		"creationLocation": {
-			"title": "Creation Location",
 			"type": "datetime"
 		},
 		"endTime": {
