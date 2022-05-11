@@ -1,3 +1,5 @@
+import logging
+
 import requests
 
 
@@ -10,6 +12,7 @@ class ConnectorInterface:
 	API_KEY: str = None
 
 	def __init__(self):
+		logging.info('Creating connector {}'.format(self.SUFFIX))
 		self._authenticate()
 
 	def _get(self, url: str, params: dict = None):

@@ -3,7 +3,7 @@ import uuid
 from datetime import datetime
 from os import listdir
 from pathlib import Path
-from random import choice, randint
+from random import randint
 from typing import Dict, List
 
 
