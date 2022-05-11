@@ -6,6 +6,7 @@ Usage: python -m sampledb set_up_demo
 import json
 import os
 import sys
+import time
 
 sys.path.append("/home/sampledb")
 
@@ -98,8 +99,11 @@ def main(arguments):
 			with open(os.path.join(schema_directory, schema_information[0]), 'r', encoding='utf-8') as handler:
 				schema = json.load(handler)
 				action = create_action(action_type_id=schema_information[1], schema=schema)
-				set_action_translation(Language.ENGLISH, action.id, name=schema_information[2],
-				                       description=schema_information[3])
+				set_action_translation(
+					Language.ENGLISH,
+					action.id,
+					name=schema_information[2],
+					description=schema_information[3])
 				sampledb.logic.action_permissions.set_action_public(action.id)
 		sampledb.db.session.commit()
 
@@ -107,4 +111,6 @@ def main(arguments):
 
 
 if __name__ == '__main__':
+	time.sleep(10)
 	main([])
+	sys.exit(0)

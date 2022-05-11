@@ -4,10 +4,6 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 
-class TimerError(Exception):
-	"""A custom exception used to report errors in use of Timer class"""
-
-
 @dataclass
 class Timer:
 	name: str
