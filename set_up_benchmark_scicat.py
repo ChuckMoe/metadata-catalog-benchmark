@@ -68,38 +68,44 @@ def main(arguments):
         )
 
         ### Create Action Types
-        proposal_action_type = create_action_type(
-            admin_only=False,
-            show_on_frontpage=True,
-            show_in_navbar=True,
-            enable_labels=True,
-            enable_files=True,
-            enable_locations=True,
-            enable_publications=True,
-            enable_comments=True,
-            enable_activity_log=True,
-            enable_related_objects=True,
-            enable_project_link=True,
-            disable_create_objects=False,
-            is_template=False
-        )
-        set_action_type_translation(
-            action_type_id=proposal_action_type.id,
-            language_id=Language.ENGLISH,
-            name='Proposal',
-            description='Proposal',
-            object_name='Proposal',
-            object_name_plural='Proposals',
-            view_text='Proposal',
-            perform_text='Create Proposal'
-        )
-        sampledb.db.session.commit()
+        new_action_types = {
+            'Proposal': -1,
+            'Datablock': -1
+        }
+        for new_action_type in new_action_types.keys():
+            new_action_types[new_action_type] = create_action_type(
+                admin_only=False,
+                show_on_frontpage=True,
+                show_in_navbar=True,
+                enable_labels=True,
+                enable_files=True,
+                enable_locations=True,
+                enable_publications=True,
+                enable_comments=True,
+                enable_activity_log=True,
+                enable_related_objects=True,
+                enable_project_link=True,
+                disable_create_objects=False,
+                is_template=False
+            )
+            set_action_type_translation(
+                action_type_id=new_action_types[new_action_type].id,
+                language_id=Language.ENGLISH,
+                name=new_action_type,
+                description=new_action_type,
+                object_name=new_action_type,
+                object_name_plural=new_action_type,
+                view_text=new_action_type,
+                perform_text='Create {}'.format(new_action_type)
+            )
+            sampledb.db.session.commit()
 
         ### Create Actions
         schema_files = [
-            ['proposal.action.json', proposal_action_type.id, 'Proposal Creation', 'Create a new Proposal'],
+            ['proposal.action.json', new_action_types['Proposal'].id, 'Proposal Creation', 'Create a new Proposal'],
             ['sample.action.json', ActionType.SAMPLE_CREATION, 'SciCat Sample Creation', 'Create new SciCat Sample'],
-            ['measurement.action.json', ActionType.MEASUREMENT, 'SciCat Dataset Creation', 'Create new SciCat Dataset']
+            ['measurement.action.json', ActionType.MEASUREMENT, 'SciCat Dataset Creation', 'Create new SciCat Dataset'],
+            ['measurement.action.json', new_action_types['Datablock'].id, 'SciCat DataBlock Creation', 'Create new SciCat Datablock']
         ]
         for schema_information in schema_files:
             with open(os.path.join(schema_directory, schema_information[0]), 'r', encoding='utf-8') as handler:

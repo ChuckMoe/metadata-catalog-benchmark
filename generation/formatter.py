@@ -3,6 +3,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List
 
+from model.datablock import DataBlock
 from model.dataset import Dataset
 from model.proposal import Proposal
 from model.sample import Sample
@@ -71,4 +72,9 @@ class Formatter:
     def save_datasets(self, datasets: List[Dataset]):
         data = self.format(datasets)
         with open(self.DATA_FOLDER / 'datasets.json', 'w') as handler:
+            json.dump(data, handler)
+
+    def save_datablocks(self, datasets: List[DataBlock]):
+        data = self.format(datasets)
+        with open(self.DATA_FOLDER / 'datablocks.json', 'w') as handler:
             json.dump(data, handler)

@@ -50,6 +50,10 @@ class ConnectorInterface:
         """ Upload a single raw_dataset/measurement """
         pass
 
+    def upload_datablock(self, data: dict):
+        """ Upload a single datablock """
+        pass
+
     def upload_proposals(self, data: list):
         """ Upload multiple proposals """
         for entry in data:
@@ -65,6 +69,11 @@ class ConnectorInterface:
         for entry in data:
             self.upload_dataset(entry)
 
+    def upload_datablocks(self, data: list):
+        """ Upload multiple datablocks """
+        for entry in data:
+            self.upload_datablock(entry)
+
     def query_proposals(self) -> List:
         """ query multiple proposals """
 
@@ -73,3 +82,6 @@ class ConnectorInterface:
 
     def query_datasets(self) -> List:
         """ query multiple raw_datasets/measurements """
+
+    def query_datablocks(self) -> List:
+        """ query multiple datablocks """

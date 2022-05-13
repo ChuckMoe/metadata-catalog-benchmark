@@ -31,9 +31,13 @@ class SciCat(ConnectorInterface):
         url = '{}/RawDatasets'.format(SERVER_ADDR)
         self._post(url=url, data=data)
 
+    def upload_datablock(self, data: dict):
+        url = '{}/OrigDatablocks'.format(SERVER_ADDR)
+        self._post(url=url, data=data)
+
     def query_proposals(self) -> List:
         url = '{}/Proposals'.format(SERVER_ADDR)
-        query = {'filter[where][firstname][eq]': 'api'}
+        query = {'filter[where][pi_email][nq]': 'api'}
         return self._get(url=url, params=query)
 
     def query_samples(self) -> List:
@@ -44,4 +48,9 @@ class SciCat(ConnectorInterface):
     def query_datasets(self) -> List:
         url = '{}/RawDatasets'.format(SERVER_ADDR)
         query = {'filter[where][publishable][eq]': 'true'}
+        return self._get(url=url, params=query)
+
+    def query_datablocks(self) -> List:
+        url = '{}/OrigDatablocks'.format(SERVER_ADDR)
+        query = {'filter[where][path][nq]': 'abcd'}
         return self._get(url=url, params=query)

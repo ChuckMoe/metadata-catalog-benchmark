@@ -36,8 +36,12 @@ class SampleDB(ConnectorInterface):
         data = {'action_id': self.actions['measurement'], 'data': data}
         self._post(url=self.url, data=data)
 
+    def upload_datablock(self, data: dict):
+        data = {'action_id': self.actions[''], 'data': data}  # Todo
+        self._post(url=self.url, data=data)
+
     def query_proposals(self) -> List:
-        query = {'q': 'action={}&firstname == "api"'.format(self.actions['custom'])}
+        query = {'q': 'action={}&pi_email != "api"'.format(self.actions['custom'])}
         return self._get(url=self.url, params=query)
 
     def query_samples(self) -> List:
@@ -46,4 +50,8 @@ class SampleDB(ConnectorInterface):
 
     def query_datasets(self) -> List:
         query = {'q': 'action={}&scientificMetadata.publishable == true'.format(self.actions['measurement'])}
+        return self._get(url=self.url, params=query)
+
+    def query_datablocks(self) -> List:
+        query = {'q': 'action={}&dataFileList.path != abcd'.format(self.actions[''])}  # Todo
         return self._get(url=self.url, params=query)

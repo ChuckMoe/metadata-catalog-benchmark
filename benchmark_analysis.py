@@ -66,7 +66,7 @@ class Timer:
     def _export_queries(self):
         dirpath = Path('./volume/timing/queries')
         dirpath.mkdir(parents=True, exist_ok=True)
-        filename = dirpath / '{}.csv'.format(datetime.datetime.now())
+        filename = dirpath / 'query.csv'
         data = zip([self.name], self.elapsed_time, self.elapsed_time_process)
 
         with open(filename, 'w', newline='') as handler:

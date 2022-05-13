@@ -32,7 +32,8 @@ def _test_connector_upload(connector: ConnectorInterface, steps) -> List[Timer]:
     return [
         _test_schema_upload(connector, 'proposals.upload', connector.upload_proposals, steps),
         _test_schema_upload(connector, 'samples.upload', connector.upload_samples, steps),
-        _test_schema_upload(connector, 'datasets.upload', connector.upload_datasets, steps)]
+        _test_schema_upload(connector, 'datasets.upload', connector.upload_datasets, steps),
+        _test_schema_upload(connector, 'datablocks.upload', connector.upload_datablocks, steps)]
 
 
 def test_connectors_upload(steps: int):
@@ -52,7 +53,8 @@ def _test_connector_query(connector: ConnectorInterface) -> List[Timer]:
     return [
         _test_schema_query(connector, 'proposals.query', connector.query_proposals),
         _test_schema_query(connector, 'samples.query', connector.query_samples),
-        _test_schema_query(connector, 'datasets.query', connector.query_datasets)]
+        _test_schema_query(connector, 'datasets.query', connector.query_datasets),
+        _test_schema_query(connector, 'datablocks.query', connector.query_datablocks)]
 
 
 def test_connectors_queries():

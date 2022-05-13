@@ -2,6 +2,7 @@ import logging
 
 from generation.sampledb import SampleDbFormatter
 from generation.scicat import SciCatFormatter
+from model.datablock import DataBlock
 from model.dataset import Dataset
 from model.proposal import Proposal
 from model.sample import Sample
@@ -12,6 +13,7 @@ def generate(amount: int):
     generator.generate_proposals()
     generator.generate_samples()
     generator.generate_datasets()
+    generator.generate_datablocks()
 
 
 class Generator:
@@ -40,6 +42,14 @@ class Generator:
         for formatter in self.formatter:
             formatter.save_datasets(data)
 
+    def generate_datablocks(self, amount: int = None):
+        logging.info('Generate {} new DataBlocks'.format(amount))
+        amount = self.default_amount if amount is None else amount
+        data = [DataBlock() for _ in range(amount)]
+        for formatter in self.formatter:
+            formatter.save_datablocks(data)
+
 
 if __name__ == '__main__':
-    generate(100)
+    g = Generator(amount=500)
+    g.generate_datablocks()
