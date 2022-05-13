@@ -8,7 +8,6 @@ from benchmark_analysis import Timer
 from connectors.connector_interface import ConnectorInterface
 from connectors.sampledb import SampleDB
 from connectors.scicat import SciCat
-from generation.generator import generate
 
 DATA_DIR = Path('./volume/objects')
 
@@ -18,7 +17,7 @@ def load_data_file(filepath: Path) -> List[Dict]:
         return json.load(handler)
 
 
-def test_schema(connector: ConnectorInterface, schema: str, function: Callable, steps: int):
+def _test_schema_upload(connector: ConnectorInterface, schema: str, function: Callable, steps: int):
     name = '{}.{}'.format(connector.SUFFIX, schema)
     logging.info('== {} =='.format(name))
 
@@ -29,17 +28,38 @@ def test_schema(connector: ConnectorInterface, schema: str, function: Callable, 
     return Timer(name=name, function=function, data=data, steps=steps)
 
 
-def test_connector_upload(connector: ConnectorInterface, steps) -> List[Timer]:
+def _test_connector_upload(connector: ConnectorInterface, steps) -> List[Timer]:
     return [
-        test_schema(connector, 'proposals', connector.upload_proposals, steps),
-        test_schema(connector, 'samples', connector.upload_samples, steps),
-        test_schema(connector, 'datasets', connector.upload_datasets, steps)]
+        _test_schema_upload(connector, 'proposals.upload', connector.upload_proposals, steps),
+        _test_schema_upload(connector, 'samples.upload', connector.upload_samples, steps),
+        _test_schema_upload(connector, 'datasets.upload', connector.upload_datasets, steps)]
 
 
 def test_connectors_upload(steps: int):
     timers: Dict[str, List[Timer]] = {}
     for connector in connectors:
-        timers[connector.SUFFIX] = test_connector_upload(connector, steps)
+        timers[connector.SUFFIX] = _test_connector_upload(connector, steps)
+    return timers
+
+
+def _test_schema_query(connector: ConnectorInterface, schema: str, function: Callable):
+    name = '{}.{}'.format(connector.SUFFIX, schema)
+    logging.info('== {} =='.format(name))
+    return Timer(name=name, function=function)
+
+
+def _test_connector_query(connector: ConnectorInterface) -> List[Timer]:
+    return [
+        _test_schema_query(connector, 'proposals.query', connector.query_proposals),
+        _test_schema_query(connector, 'samples.query', connector.query_samples),
+        _test_schema_query(connector, 'datasets.query', connector.query_datasets)]
+
+
+def test_connectors_queries():
+    timers: Dict[str, List[Timer]] = {}
+    for connector in connectors:
+        timers[connector.SUFFIX] = _test_connector_query(connector)
+    return timers
 
 
 def init():
@@ -61,6 +81,7 @@ def init():
 
 
 if __name__ == '__main__':
-    generate(30)
     connectors = init()
-    test_connectors_upload(steps=50)
+    # generate(500)  # Needed if DB is not empty. Otherwise, there will be conflicting object IDs
+    # test_connectors_upload(steps=100)
+    test_connectors_queries()

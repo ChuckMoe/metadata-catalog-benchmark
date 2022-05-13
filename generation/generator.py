@@ -8,7 +8,7 @@ from model.sample import Sample
 
 
 def generate(amount: int):
-    generator = Generator(amount=100)
+    generator = Generator(amount=amount)
     generator.generate_proposals()
     generator.generate_samples()
     generator.generate_datasets()
