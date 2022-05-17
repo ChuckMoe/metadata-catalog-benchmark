@@ -27,6 +27,6 @@ class SampleDbFormatter(Formatter):
         data = super(SampleDbFormatter, self)._format_data_by_type(key, value)
 
         # SampleDB needs a 'name' attribute
-        if key in ['proposalId', 'sampleId', 'pid']:
+        if key in ['proposalId', 'sampleId', 'pid', 'datablockId']:
             return {'name': data[key]}
         return data

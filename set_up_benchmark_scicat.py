@@ -105,7 +105,7 @@ def main(arguments):
             ['proposal.action.json', new_action_types['Proposal'].id, 'Proposal Creation', 'Create a new Proposal'],
             ['sample.action.json', ActionType.SAMPLE_CREATION, 'SciCat Sample Creation', 'Create new SciCat Sample'],
             ['measurement.action.json', ActionType.MEASUREMENT, 'SciCat Dataset Creation', 'Create new SciCat Dataset'],
-            ['measurement.action.json', new_action_types['Datablock'].id, 'SciCat DataBlock Creation', 'Create new SciCat Datablock']
+            ['datablock.action.json', new_action_types['Datablock'].id, 'SciCat DataBlock Creation', 'Create new SciCat Datablock']
         ]
         for schema_information in schema_files:
             with open(os.path.join(schema_directory, schema_information[0]), 'r', encoding='utf-8') as handler:

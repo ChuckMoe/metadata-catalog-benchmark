@@ -14,7 +14,6 @@ class SampleDB(ConnectorInterface):
         self.url = '{}/objects/'.format(self.SERVER_ADDR)
         self.actions = {}
         self.get_actions()
-        print(self.actions)
 
     def __repr__(self):
         return 'SampleDB'
@@ -25,7 +24,7 @@ class SampleDB(ConnectorInterface):
             self.actions[action['type']] = action['action_id']
 
     def upload_proposal(self, data: dict):
-        data = {'action_id': self.actions['custom'], 'data': data}
+        data = {'action_id': 1, 'data': data}
         self._post(url=self.url, data=data)
 
     def upload_sample(self, data: dict):
@@ -37,21 +36,21 @@ class SampleDB(ConnectorInterface):
         self._post(url=self.url, data=data)
 
     def upload_datablock(self, data: dict):
-        data = {'action_id': self.actions[''], 'data': data}  # Todo
+        data = {'action_id': 4, 'data': data}
         self._post(url=self.url, data=data)
 
-    def query_proposals(self) -> List:
-        query = {'q': 'action={}&pi_email != "api"'.format(self.actions['custom'])}
+    def query_proposals(self, **kwargs) -> List:
+        query = {'action_id': 1, 'q': 'email == "api"'}
         return self._get(url=self.url, params=query)
 
-    def query_samples(self) -> List:
-        query = {'q': 'action={}&sampleCharacteristics.metadata6 > 40000 g'.format(self.actions['sample'])}
+    def query_samples(self, **kwargs) -> List:
+        query = {'action_id': 2, 'q': 'sampleCharacteristics.metadata6 >= 0 g'}
         return self._get(url=self.url, params=query)
 
-    def query_datasets(self) -> List:
-        query = {'q': 'action={}&scientificMetadata.publishable == true'.format(self.actions['measurement'])}
+    def query_datasets(self, **kwargs) -> List:
+        query = {'action_id': 3, 'q': 'principalInvestigator == "api"'}
         return self._get(url=self.url, params=query)
 
-    def query_datablocks(self) -> List:
-        query = {'q': 'action={}&dataFileList.path != abcd'.format(self.actions[''])}  # Todo
+    def query_datablocks(self, **kwargs) -> List:
+        query = {'action_id': 4, 'q': 'ownerGroup == "Group#1"'}
         return self._get(url=self.url, params=query)

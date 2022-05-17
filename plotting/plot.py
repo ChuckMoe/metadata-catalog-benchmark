@@ -1,8 +1,9 @@
-import pandas as pd
-import plotly.express as px
 from pathlib import Path
 
-BASE_PATH = Path('../volume/timing').absolute()
+import pandas as pd
+import plotly.express as px
+
+BASE_PATH = Path(__file__).absolute().parent.parent / 'volume/timing'
 
 
 def load_csv(filepath: Path) -> pd.DataFrame:
@@ -16,9 +17,13 @@ def load_csv(filepath: Path) -> pd.DataFrame:
 
 
 def create_plot(df: pd.DataFrame, out: Path, title: str = None):
-    fig = px.box(df, x='Catalogue', y='Elapsed Time', color='Schema', title=title)
-    fig.update_yaxes(tick0=0.0)
-    fig.write_image(file=out, format='png')
+    fig_upload = px.box(df, x='Catalogue', y='upload - Elapsed Time', color='Schema', title=title)
+    fig_upload.update_yaxes(tick0=0.0)
+    fig_upload.write_image(file='{}.upload.png'.format(out), format='png')
+
+    fig_query = px.box(df, x='Catalogue', y='query - Elapsed Time', color='Schema', title=title)
+    fig_query.update_yaxes(tick0=0.0)
+    fig_query.write_image(file='{}.query.png'.format(out), format='png')
 
 
 def create_plots_step_size(dirpath: Path):
@@ -29,7 +34,7 @@ def create_plots_step_size(dirpath: Path):
 
     step_size = dirpath.name
     schema_size = dirpath.parent.name
-    out = BASE_PATH / 'datasize_{}-steps_{}.png'.format(schema_size, step_size)
+    out = BASE_PATH / 'datasize_{}-steps_{}'.format(schema_size, step_size)
     create_plot(df, out, title='{} Schema Entries - {} Step size'.format(schema_size, step_size))
 
 

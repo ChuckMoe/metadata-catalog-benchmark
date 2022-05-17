@@ -35,22 +35,23 @@ class SciCat(ConnectorInterface):
         url = '{}/OrigDatablocks'.format(SERVER_ADDR)
         self._post(url=url, data=data)
 
-    def query_proposals(self) -> List:
+    def query_proposals(self, **kwargs) -> List:
         url = '{}/Proposals'.format(SERVER_ADDR)
-        query = {'filter[where][pi_email][nq]': 'api'}
+        query = {'filter[where][email][eq]': 'api'}
         return self._get(url=url, params=query)
 
-    def query_samples(self) -> List:
+    def query_samples(self, **kwargs) -> List:
         url = '{}/Samples'.format(SERVER_ADDR)
-        query = {'filter[where][metadata6][gt]': '40000'}
+        # filter[where][nested.attribute] not working
+        query = {'filter': '{"where": {"sampleCharacteristics.metadata6": {"gte": 0}}}'}
         return self._get(url=url, params=query)
 
-    def query_datasets(self) -> List:
+    def query_datasets(self, **kwargs) -> List:
         url = '{}/RawDatasets'.format(SERVER_ADDR)
-        query = {'filter[where][publishable][eq]': 'true'}
+        query = {'filter[where][principalInvestigator][eq]': 'api'}
         return self._get(url=url, params=query)
 
-    def query_datablocks(self) -> List:
+    def query_datablocks(self, **kwargs) -> List:
         url = '{}/OrigDatablocks'.format(SERVER_ADDR)
-        query = {'filter[where][path][nq]': 'abcd'}
+        query = {'filter[where][ownerGroup][eq]': 'Group#1'}
         return self._get(url=url, params=query)

@@ -74,14 +74,14 @@ class ConnectorInterface:
         for entry in data:
             self.upload_datablock(entry)
 
-    def query_proposals(self) -> List:
+    def query_proposals(self, **kwargs) -> List:
         """ query multiple proposals """
 
-    def query_samples(self) -> List:
+    def query_samples(self, **kwargs) -> List:
         """ query multiple samples """
 
-    def query_datasets(self) -> List:
+    def query_datasets(self, **kwargs) -> List:
         """ query multiple raw_datasets/measurements """
 
-    def query_datablocks(self) -> List:
+    def query_datablocks(self, **kwargs) -> List:
         """ query multiple datablocks """

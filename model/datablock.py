@@ -1,3 +1,4 @@
+import random
 from typing import List
 
 from generation.help import *
@@ -9,6 +10,7 @@ class DataFile:
     time: datetime
     chk: str
     uid: str
+    gid: str
     perm: str
     createdBy: str
     updatedBy: str
@@ -21,6 +23,7 @@ class DataFile:
         self.time = generate_data_datetime()
         self.chk = generate_data_text()
         self.uid = generate_data_text()
+        self.gid = generate_data_text()
         self.perm = generate_data_text()
         self.createdBy = generate_data_user()
         self.updatedBy = generate_data_user()
@@ -30,6 +33,7 @@ class DataFile:
 
 class DataBlock:
     id: str
+    size: int
     datasetId: str
     rawDatasetId: str
     derivedDatasetId: str
@@ -42,11 +46,13 @@ class DataBlock:
     createdAt: datetime
     updatedAt: datetime
 
-    def __init__(self):
-        self.id = generate_data_text()
-        self.datasetId = generate_data_text()
-        self.rawDatasetId = generate_data_text()
-        self.derivedDatasetId = generate_data_text()
+    def __init__(self, dataset_ids: List[str]):
+        dataset_id = 'PID/{}'.format(random.choice(dataset_ids))  # Scicat needs to associate valid ids for this
+        self.datablockId = generate_data_text()
+        self.size = generate_data_number()
+        self.datasetId = dataset_id
+        self.rawDatasetId = dataset_id
+        self.derivedDatasetId = dataset_id
         self.dataFileList = [DataFile() for _ in range(randint(0, 20))]
         self.ownerGroup = generate_data_group()
         self.accessGroups = [generate_data_group()]

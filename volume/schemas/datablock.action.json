@@ -7,6 +7,11 @@
 			"title": "Orig Datablock ID",
 			"type": "text"
 		},
+		"size": {
+			"title": "Size",
+			"type": "quantity",
+			"units": "g"
+		},
 		"datasetId": {
 			"title": "Dataset ID",
 			"type": "text"
@@ -33,7 +38,7 @@
 					"size": {
 						"title": "Size",
 						"type": "quantity",
-						"units": "B"
+						"units": "g"
 					},
 					"time": {
 						"title": "Creation Timestamp",
@@ -44,6 +49,10 @@
 						"type": "text"
 					},
 					"uid": {
+						"title": "User ID",
+						"type": "text"
+					},
+					"gid": {
 						"title": "Group ID",
 						"type": "text"
 					},
