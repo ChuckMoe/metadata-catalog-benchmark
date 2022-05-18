@@ -1,8 +1,16 @@
 import uuid
 from datetime import datetime
 from random import randint
+from typing import Generator
 
 NOW: datetime = datetime.now()
+
+
+def infinite_id(prefix: str) -> Generator[str, str, None]:
+    num = 0
+    while True:
+        yield '{}/{}'.format(prefix, num)
+        num += 1
 
 
 def generate_data_user() -> str:
@@ -22,7 +30,7 @@ def generate_data_datetime() -> datetime:
 
 
 def generate_data_number() -> int:
-    return randint(0, 99999)
+    return randint(1, 100)
 
 
 def generate_data_bool() -> bool:

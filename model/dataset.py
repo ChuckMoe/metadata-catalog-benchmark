@@ -3,6 +3,9 @@ from typing import List
 from generation.help import *
 
 
+id_generator = infinite_id('Dataset')
+
+
 class Technique:
     pid: str
     name: str
@@ -102,8 +105,9 @@ class Dataset:
     updatedAt: datetime
 
     def __init__(self):
-        self.pid = generate_data_text()
-        self.datasetName = generate_data_text()
+        current_id = next(id_generator)
+        self.pid = current_id
+        self.datasetName = current_id
         self.owner = generate_data_user()
         self.ownerEmail = generate_data_user()
         self.principalInvestigator = generate_data_user()

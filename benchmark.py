@@ -1,16 +1,15 @@
 import datetime
 import json
 import logging
-import sys
 from pathlib import Path
 from typing import Callable, Dict, List
 
-from plotting import plot
 from benchmark_analysis import Timer
 from connectors.connector_interface import ConnectorInterface
 from connectors.sampledb import SampleDB
 from connectors.scicat import SciCat
 from generation.generator import generate
+from plotting import plot
 
 DATA_DIR = Path('./volume/objects')
 
@@ -46,18 +45,45 @@ def test_connectors_upload(steps: int):
     return timers
 
 
-def _test_schema_query(connector: ConnectorInterface, schema: str, function: Callable):
+def _test_schema_query(connector: ConnectorInterface, schema: str, functions: Dict[str, Callable]):
     name = '{}.{}'.format(connector.SUFFIX, schema)
     logging.info('== {} =='.format(name))
-    return Timer(name=name, functions={'query': function})
+    return Timer(name=name, functions=functions)
 
 
 def _test_connector_query(connector: ConnectorInterface) -> List[Timer]:
+    functions = [
+        {
+            'query_zero': connector.query_zero_proposals,
+            'query_one': connector.query_one_proposal,
+            'query_some': connector.query_some_proposals,
+            'query_all': connector.query_all_proposals
+        },
+        {
+            'query_zero': connector.query_zero_samples,
+            'query_one': connector.query_one_sample,
+            'query_some': connector.query_some_samples,
+            'query_all': connector.query_all_samples
+        },
+        {
+            'query_zero': connector.query_zero_datasets,
+            'query_one': connector.query_one_dataset,
+            'query_some': connector.query_some_datasets,
+            'query_all': connector.query_all_datasets
+        },
+        {
+            'query_zero': connector.query_zero_datablocks,
+            'query_one': connector.query_one_datablock,
+            'query_some': connector.query_some_datablocks,
+            'query_all': connector.query_all_datablocks
+        }
+    ]
     return [
-        _test_schema_query(connector, 'proposals', connector.query_proposals),
-        _test_schema_query(connector, 'samples', connector.query_samples),
-        _test_schema_query(connector, 'datasets', connector.query_datasets),
-        _test_schema_query(connector, 'datablocks', connector.query_datablocks)]
+        _test_schema_query(connector, 'proposals', functions[0]),
+        _test_schema_query(connector, 'samples', functions[1]),
+        _test_schema_query(connector, 'datasets', functions[2]),
+        _test_schema_query(connector, 'datablocks', functions[3])
+    ]
 
 
 def test_connectors_queries():
@@ -80,16 +106,41 @@ def _test_schema_all(connector: ConnectorInterface, schema: str, functions: Dict
 
 def _test_connector_all(connector: ConnectorInterface, steps) -> List[Timer]:
     functions = [
-        {'upload': connector.upload_proposals, 'query': connector.query_proposals},
-        {'upload': connector.upload_samples, 'query': connector.query_samples},
-        {'upload': connector.upload_datasets, 'query': connector.query_datasets},
-        {'upload': connector.upload_datablocks, 'query': connector.query_datablocks}
+        {
+            'upload': connector.upload_proposals,
+            'query_zero': connector.query_zero_proposals,
+            'query_one': connector.query_one_proposal,
+            'query_some': connector.query_some_proposals,
+            'query_all': connector.query_all_proposals
+        },
+        {
+            'upload': connector.upload_samples,
+            'query_zero': connector.query_zero_samples,
+            'query_one': connector.query_one_sample,
+            'query_some': connector.query_some_samples,
+            'query_all': connector.query_all_samples
+        },
+        {
+            'upload': connector.upload_datasets,
+            'query_zero': connector.query_zero_datasets,
+            'query_one': connector.query_one_dataset,
+            'query_some': connector.query_some_datasets,
+            'query_all': connector.query_all_datasets
+        },
+        {
+            'upload': connector.upload_datablocks,
+            'query_zero': connector.query_zero_datablocks,
+            'query_one': connector.query_one_datablock,
+            'query_some': connector.query_some_datablocks,
+            'query_all': connector.query_all_datablocks
+        }
     ]
     return [
         _test_schema_all(connector, 'proposals', functions[0], steps),
         _test_schema_all(connector, 'samples', functions[1], steps),
         _test_schema_all(connector, 'datasets', functions[2], steps),
-        _test_schema_all(connector, 'datablocks', functions[3], steps)]
+        _test_schema_all(connector, 'datablocks', functions[3], steps)
+    ]
 
 
 def test_connectors_all(steps: int):
@@ -112,14 +163,14 @@ def init():
     logging.info('=== New Benchmark Test ===')
 
     return [
-        SampleDB(),
+        # SampleDB(),
         SciCat()
     ]
 
 
 if __name__ == '__main__':
     connectors = init()
-    # generate(200)  # Needed if DB is not empty. Otherwise, there will be conflicting object IDs
+    # generate(50000)  # Needed if DB is not empty. Otherwise, there will be conflicting object IDs
     # test_connectors_upload(steps=100)
     # test_connectors_queries()
     test_connectors_all(steps=100)

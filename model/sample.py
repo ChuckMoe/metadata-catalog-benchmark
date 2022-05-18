@@ -3,6 +3,9 @@ from typing import List
 from generation.help import *
 
 
+id_generator = infinite_id('Sample')
+
+
 class SampleCharacteristics:
     metadata1: str
     metadata2: str
@@ -47,9 +50,10 @@ class Sample:
     updatedAt: datetime
 
     def __init__(self):
-        self.sampleId = generate_data_text()
+        current_id = next(id_generator)
+        self.sampleId = current_id
         self.owner = generate_data_user()
-        self.description = generate_data_text()
+        self.description = current_id
         self.sampleCharacteristics = SampleCharacteristics()
         self.isPublished = generate_data_bool()
         self.ownerGroup = generate_data_group()

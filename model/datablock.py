@@ -4,6 +4,9 @@ from typing import List
 from generation.help import *
 
 
+id_generator = infinite_id('Datablock')
+
+
 class DataFile:
     path: str
     size: int
@@ -47,9 +50,10 @@ class DataBlock:
     updatedAt: datetime
 
     def __init__(self, dataset_ids: List[str]):
+        current_id = next(id_generator)
         dataset_id = 'PID/{}'.format(random.choice(dataset_ids))  # Scicat needs to associate valid ids for this
-        self.datablockId = generate_data_text()
-        self.size = generate_data_number()
+        self.datablockId = current_id
+        self.size = int(current_id.split('/')[1])
         self.datasetId = dataset_id
         self.rawDatasetId = dataset_id
         self.derivedDatasetId = dataset_id

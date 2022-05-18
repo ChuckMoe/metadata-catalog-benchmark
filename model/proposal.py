@@ -3,6 +3,9 @@ from typing import List
 from generation.help import *
 
 
+id_generator = infinite_id('Proposal')
+
+
 class MeasurementPeriod:
     id: str
     instrument: str
@@ -48,14 +51,15 @@ class Proposal:
     updatedAt: datetime
 
     def __init__(self):
-        self.proposalId = generate_data_text()
+        current_id = next(id_generator)
+        self.proposalId = current_id
         self.pi_email = generate_data_text()
         self.pi_firstname = generate_data_user()
         self.pi_lastname = generate_data_user()
         self.email = generate_data_user()
         self.firstname = generate_data_user()
         self.lastname = generate_data_user()
-        self.title = generate_data_text()
+        self.title = current_id
         self.abstract = generate_data_text()
         self.MeasurementPeriodList = [MeasurementPeriod() for _ in range(randint(0, 20))]
         self.startTime = generate_data_datetime()

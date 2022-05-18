@@ -39,18 +39,68 @@ class SampleDB(ConnectorInterface):
         data = {'action_id': 4, 'data': data}
         self._post(url=self.url, data=data)
 
-    def query_proposals(self, **kwargs) -> List:
+    def query_zero_proposals(self, **kwargs) -> List:
+        query = {'action_id': 1, 'q': 'email == "investor"'}
+        return self._get(url=self.url, params=query)
+
+    def query_zero_samples(self, **kwargs) -> List:
+        query = {'action_id': 2, 'q': 'sampleCharacteristics.metadata6 < 0 g'}
+        return self._get(url=self.url, params=query)
+
+    def query_zero_datasets(self, **kwargs) -> List:
+        query = {'action_id': 3, 'q': 'principalInvestigator == "investor"'}
+        return self._get(url=self.url, params=query)
+
+    def query_zero_datablocks(self, **kwargs) -> List:
+        query = {'action_id': 4, 'q': 'ownerGroup == "Group#99"'}
+        return self._get(url=self.url, params=query)
+
+    def query_one_proposal(self, **kwargs) -> List:
+        query = {'action_id': 1, 'q': 'title == "Proposal/1"'}
+        return self._get(url=self.url, params=query)
+
+    def query_one_sample(self, **kwargs) -> List:
+        query = {'action_id': 2, 'q': 'description == "Sample/1"'}
+        return self._get(url=self.url, params=query)
+
+    def query_one_dataset(self, **kwargs) -> List:
+        query = {'action_id': 3, 'q': 'datasetName == "Dataset/1"'}
+        return self._get(url=self.url, params=query)
+
+    def query_one_datablock(self, **kwargs) -> List:
+        query = {'action_id': 4, 'q': 'size == 0 g'}
+        return self._get(url=self.url, params=query)
+
+    def query_some_proposals(self, **kwargs) -> List:
+        template = '(title == "Proposal/{}")'
+        query = ' or '.join([template.format(i*100) for i in range(10)])
+        query = {'action_id': 1, 'q': query}
+        return self._get(url=self.url, params=query)
+
+    def query_some_samples(self, **kwargs) -> List:
+        query = {'action_id': 2, 'q': 'sampleCharacteristics.metadata6 > 85 g'}
+        return self._get(url=self.url, params=query)
+
+    def query_some_datasets(self, **kwargs) -> List:
+        query = {'action_id': 3, 'q': 'size > 85 g'}
+        return self._get(url=self.url, params=query)
+
+    def query_some_datablocks(self, **kwargs) -> List:
+        query = {'action_id': 4, 'q': 'size < 15 g'}
+        return self._get(url=self.url, params=query)
+
+    def query_all_proposals(self, **kwargs) -> List:
         query = {'action_id': 1, 'q': 'email == "api"'}
         return self._get(url=self.url, params=query)
 
-    def query_samples(self, **kwargs) -> List:
+    def query_all_samples(self, **kwargs) -> List:
         query = {'action_id': 2, 'q': 'sampleCharacteristics.metadata6 >= 0 g'}
         return self._get(url=self.url, params=query)
 
-    def query_datasets(self, **kwargs) -> List:
+    def query_all_datasets(self, **kwargs) -> List:
         query = {'action_id': 3, 'q': 'principalInvestigator == "api"'}
         return self._get(url=self.url, params=query)
 
-    def query_datablocks(self, **kwargs) -> List:
+    def query_all_datablocks(self, **kwargs) -> List:
         query = {'action_id': 4, 'q': 'ownerGroup == "Group#1"'}
         return self._get(url=self.url, params=query)

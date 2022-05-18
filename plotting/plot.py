@@ -16,14 +16,18 @@ def load_csv(filepath: Path) -> pd.DataFrame:
     return df
 
 
-def create_plot(df: pd.DataFrame, out: Path, title: str = None):
-    fig_upload = px.box(df, x='Catalogue', y='upload - Elapsed Time', color='Schema', title=title)
+def _create_plot(df: pd.DataFrame, out: Path, suffix: str, title: str):
+    fig_upload = px.box(df, x='Catalogue', y='{} - Elapsed Time'.format(suffix), color='Schema', title=title)
     fig_upload.update_yaxes(tick0=0.0)
-    fig_upload.write_image(file='{}.upload.png'.format(out), format='png')
+    fig_upload.write_image(file='{}.{}.png'.format(out, suffix), format='png')
 
-    fig_query = px.box(df, x='Catalogue', y='query - Elapsed Time', color='Schema', title=title)
-    fig_query.update_yaxes(tick0=0.0)
-    fig_query.write_image(file='{}.query.png'.format(out), format='png')
+
+def create_plot(df: pd.DataFrame, out: Path, title: str = None):
+    _create_plot(df, out, 'upload', title)
+    _create_plot(df, out, 'query_zero', title)
+    _create_plot(df, out, 'query_one', title)
+    _create_plot(df, out, 'query_some', title)
+    _create_plot(df, out, 'query_all', title)
 
 
 def create_plots_step_size(dirpath: Path):

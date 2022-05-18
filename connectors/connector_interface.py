@@ -74,14 +74,50 @@ class ConnectorInterface:
         for entry in data:
             self.upload_datablock(entry)
 
-    def query_proposals(self, **kwargs) -> List:
+    def query_zero_proposals(self, **kwargs) -> List:
+        """ query zero proposals """
+
+    def query_zero_samples(self, **kwargs) -> List:
+        """ query zero samples """
+
+    def query_zero_datasets(self, **kwargs) -> List:
+        """ query zero raw_datasets/measurements """
+
+    def query_zero_datablocks(self, **kwargs) -> List:
+        """ query zero datablocks """
+
+    def query_one_proposal(self, **kwargs) -> List:
+        """ query zero proposal """
+
+    def query_one_sample(self, **kwargs) -> List:
+        """ query one sample """
+
+    def query_one_dataset(self, **kwargs) -> List:
+        """ query one raw_dataset/measurement """
+
+    def query_one_datablock(self, **kwargs) -> List:
+        """ query one datablock """
+
+    def query_some_proposals(self, **kwargs) -> List:
         """ query multiple proposals """
 
-    def query_samples(self, **kwargs) -> List:
+    def query_some_samples(self, **kwargs) -> List:
         """ query multiple samples """
 
-    def query_datasets(self, **kwargs) -> List:
+    def query_some_datasets(self, **kwargs) -> List:
         """ query multiple raw_datasets/measurements """
 
-    def query_datablocks(self, **kwargs) -> List:
+    def query_some_datablocks(self, **kwargs) -> List:
+        """ query multiple datablocks """
+
+    def query_all_proposals(self, **kwargs) -> List:
+        """ query multiple proposals """
+
+    def query_all_samples(self, **kwargs) -> List:
+        """ query multiple samples """
+
+    def query_all_datasets(self, **kwargs) -> List:
+        """ query multiple raw_datasets/measurements """
+
+    def query_all_datablocks(self, **kwargs) -> List:
         """ query multiple datablocks """
