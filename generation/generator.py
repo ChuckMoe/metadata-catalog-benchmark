@@ -66,4 +66,4 @@ class Generator:
 
 
 if __name__ == '__main__':
-    generate(5)
+    generate(20000)

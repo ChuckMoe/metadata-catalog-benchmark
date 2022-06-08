@@ -78,11 +78,11 @@ class SampleDB(ConnectorInterface):
         return self._get(url=self.url, params=query)
 
     def query_some_samples(self, **kwargs) -> List:
-        query = {'action_id': 2, 'q': 'sampleCharacteristics.metadata6 > 85 g'}
+        query = {'action_id': 2, 'q': 'sampleCharacteristics.metadata6 < 15 g'}
         return self._get(url=self.url, params=query)
 
     def query_some_datasets(self, **kwargs) -> List:
-        query = {'action_id': 3, 'q': 'size > 85 g'}
+        query = {'action_id': 3, 'q': 'size < 15 g'}
         return self._get(url=self.url, params=query)
 
     def query_some_datablocks(self, **kwargs) -> List:

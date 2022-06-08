@@ -42,7 +42,10 @@ class SciCat(ConnectorInterface):
 
     def query_zero_samples(self, **kwargs) -> List:
         url = '{}/Samples'.format(SERVER_ADDR)
-        query = {'filter': '{"where": {"sampleCharacteristics.metadata6": {"lt": 0}}}'}
+        query = {
+            'filter': '{"where": {"sampleCharacteristics.metadata6": {"lt": '
+                      '0}}}'
+        }
         return self._get(url=url, params=query)
 
     def query_zero_datasets(self, **kwargs) -> List:
@@ -77,23 +80,27 @@ class SciCat(ConnectorInterface):
 
     def query_some_proposals(self, **kwargs) -> List:
         url = '{}/Proposals'.format(SERVER_ADDR)
-        query = ','.join(['{"title": "Proposal/' + str(i*100) + '"}' for i in range(10)])
+        query = ','.join(
+            ['{"title": "Proposal/' + str(i * 100) + '"}' for i in range(10)])
         query = {'filter': '{"where": {"or": [' + query + ']}}'}
         return self._get(url=url, params=query)
 
     def query_some_samples(self, **kwargs) -> List:
         url = '{}/Samples'.format(SERVER_ADDR)
-        query = {'filter': '{"where": {"sampleCharacteristics.metadata6": {"gt": 85}}}'}
+        query = {
+            'filter': '{"where": {"sampleCharacteristics.metadata6": {"lt": '
+                      '15}}}'
+        }
         return self._get(url=url, params=query)
 
     def query_some_datasets(self, **kwargs) -> List:
         url = '{}/RawDatasets'.format(SERVER_ADDR)
-        query = {'filter[where][size][gt]': '85'}
+        query = {'filter[where][size][lt]': '15'}
         return self._get(url=url, params=query)
 
     def query_some_datablocks(self, **kwargs) -> List:
         url = '{}/OrigDatablocks'.format(SERVER_ADDR)
-        query = {'filter[where][ownerGroup][lt]': 15}
+        query = {'filter[where][size][lt]': 15}
         return self._get(url=url, params=query)
 
     def query_all_proposals(self, **kwargs) -> List:
@@ -104,7 +111,10 @@ class SciCat(ConnectorInterface):
     def query_all_samples(self, **kwargs) -> List:
         url = '{}/Samples'.format(SERVER_ADDR)
         # filter[where][nested.attribute] not working
-        query = {'filter': '{"where": {"sampleCharacteristics.metadata6": {"gte": 0}}}'}
+        query = {
+            'filter': '{"where": {"sampleCharacteristics.metadata6": {"gte":'
+                      ' 0}}}'
+        }
         return self._get(url=url, params=query)
 
     def query_all_datasets(self, **kwargs) -> List:

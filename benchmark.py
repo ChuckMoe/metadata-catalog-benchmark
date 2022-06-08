@@ -1,6 +1,7 @@
 import datetime
 import json
 import logging
+import sys
 from pathlib import Path
 from typing import Callable, Dict, List
 
@@ -19,23 +20,49 @@ def load_data_file(filepath: Path) -> List[Dict]:
         return json.load(handler)
 
 
-def _test_schema_upload(connector: ConnectorInterface, schema: str, function: Callable, steps: int):
+def _test_schema_upload(
+        connector: ConnectorInterface,
+        schema: str,
+        function: Callable,
+        steps: int):
     name = '{}.{}'.format(connector.SUFFIX, schema)
     logging.info('== {} =='.format(name))
 
-    data = load_data_file(DATA_DIR / connector.SUFFIX / '{}.json'.format(schema))
+    data = load_data_file(
+        DATA_DIR / connector.SUFFIX / '{}.json'.format(schema))
     logging.info('Data length: {}'.format(len(data)))
     logging.info('Step length: {}'.format(steps))
 
-    return Timer(name=name, functions={'upload': function}, data=data, steps=steps)
+    return Timer(
+        name=name,
+        functions={'upload': function},
+        data=data,
+        steps=steps)
 
 
-def _test_connector_upload(connector: ConnectorInterface, steps) -> List[Timer]:
+def _test_connector_upload(connector: ConnectorInterface, steps) -> List[
+    Timer]:
     return [
-        _test_schema_upload(connector, 'proposals', connector.upload_proposals, steps),
-        _test_schema_upload(connector, 'samples', connector.upload_samples, steps),
-        _test_schema_upload(connector, 'datasets', connector.upload_datasets, steps),
-        _test_schema_upload(connector, 'datablocks', connector.upload_datablocks, steps)]
+        _test_schema_upload(
+            connector,
+            'proposals',
+            connector.upload_proposals,
+            steps),
+        _test_schema_upload(
+            connector,
+            'samples',
+            connector.upload_samples,
+            steps),
+        _test_schema_upload(
+            connector,
+            'datasets',
+            connector.upload_datasets,
+            steps),
+        _test_schema_upload(
+            connector,
+            'datablocks',
+            connector.upload_datablocks,
+            steps)]
 
 
 def test_connectors_upload(steps: int):
@@ -45,7 +72,10 @@ def test_connectors_upload(steps: int):
     return timers
 
 
-def _test_schema_query(connector: ConnectorInterface, schema: str, functions: Dict[str, Callable]):
+def _test_schema_query(
+        connector: ConnectorInterface,
+        schema: str,
+        functions: Dict[str, Callable]):
     name = '{}.{}'.format(connector.SUFFIX, schema)
     logging.info('== {} =='.format(name))
     return Timer(name=name, functions=functions)
@@ -93,11 +123,16 @@ def test_connectors_queries():
     return timers
 
 
-def _test_schema_all(connector: ConnectorInterface, schema: str, functions: Dict[str, Callable], steps: int):
+def _test_schema_all(
+        connector: ConnectorInterface,
+        schema: str,
+        functions: Dict[str, Callable],
+        steps: int):
     name = '{}.{}'.format(connector.SUFFIX, schema)
     logging.info('== {} =='.format(name))
 
-    data = load_data_file(DATA_DIR / connector.SUFFIX / '{}.json'.format(schema))
+    data = load_data_file(
+        DATA_DIR / connector.SUFFIX / '{}.json'.format(schema))
     logging.info('Data length: {}'.format(len(data)))
     logging.info('Step length: {}'.format(steps))
 
@@ -151,26 +186,29 @@ def test_connectors_all(steps: int):
 
 
 def init():
+    log_filepath = 'logs/benchmark.{}.log'.format(datetime.datetime.now())
     logging.basicConfig(
         level=logging.INFO,
         encoding='utf-8',
         format="%(asctime)s [%(levelname)s] %(message)s",
         handlers=[
-            logging.FileHandler('logs/benchmark.{}.log'.format(datetime.datetime.now()), mode='a'),
-            # logging.StreamHandler(sys.stdout)
+            logging.FileHandler(log_filepath, mode='a'),
+            logging.StreamHandler(sys.stdout)
         ]
     )
     logging.info('=== New Benchmark Test ===')
 
     return [
-        # SampleDB(),
+        SampleDB(),
         SciCat()
     ]
 
 
 if __name__ == '__main__':
     connectors = init()
-    # generate(50000)  # Needed if DB is not empty. Otherwise, there will be conflicting object IDs
+    # Needed if DB is not empty. Otherwise, there will be conflicting object
+    # IDs
+    generate(5000)
     # test_connectors_upload(steps=100)
     # test_connectors_queries()
     test_connectors_all(steps=100)
