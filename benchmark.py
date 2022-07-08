@@ -12,7 +12,7 @@ from connectors.scicat import SciCat
 from generation.generator import generate
 from plotting import plot
 
-DATA_DIR = Path('./volume/objects')
+DATA_DIR = Path('./output/objects')
 
 
 def load_data_file(filepath: Path) -> List[Dict]:
@@ -200,16 +200,15 @@ def init():
 
     return [
         SampleDB(),
-        SciCat()
+        # SciCat()
     ]
 
 
 if __name__ == '__main__':
     connectors = init()
-    # Needed if DB is not empty. Otherwise, there will be conflicting object
-    # IDs
-    generate(5000)
-    # test_connectors_upload(steps=100)
+    # Needed if DB is not empty. Otherwise, there will be conflicting object IDs
+    generate(10)
+    # test_connectors_upload(steps=1)
     # test_connectors_queries()
-    test_connectors_all(steps=100)
-    plot.create_plots_timing()
+    test_connectors_all(steps=5)
+    # plot.create_plots_timing()

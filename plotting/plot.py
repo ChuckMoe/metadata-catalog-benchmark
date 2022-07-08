@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 import plotly.express as px
 
-BASE_PATH = Path(__file__).absolute().parent.parent / 'volume/timing'
+BASE_PATH = Path(__file__).absolute().parent.parent / 'output/timing'
 
 
 def load_csv(filepath: Path) -> pd.DataFrame:

@@ -10,10 +10,11 @@ from model.sample import Sample
 
 
 class Formatter:
-    DATA_FOLDER = Path('/home/mhannemann/Workspace/benchmark-metadata-catalog/volume/objects')
+    DATA_FOLDER = Path(__file__).parent.parent / 'output/objects'
     SUFFIX: str
 
     def __init__(self):
+        print(self.DATA_FOLDER)
         self.DATA_FOLDER = self.DATA_FOLDER / self.SUFFIX
         self.DATA_FOLDER.mkdir(parents=True, exist_ok=True)
 

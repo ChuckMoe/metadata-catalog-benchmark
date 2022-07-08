@@ -12,7 +12,7 @@ from model.sample import Sample
 
 
 def _load_existing_dataset_ids() -> List[str]:
-    filepath_datasets = Path(__file__).parent.parent / 'volume/objects/scicat/datasets.json'
+    filepath_datasets = Path(__file__).parent.parent / 'output/objects/scicat/datasets.json'
     with open(filepath_datasets, 'r') as handler:
         datasets = json.load(handler)
         return [dataset['pid'] for dataset in datasets]

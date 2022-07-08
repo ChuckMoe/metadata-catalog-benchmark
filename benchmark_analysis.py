@@ -66,9 +66,9 @@ class Timer:
 
     def export(self):
         if 0 == self.len:
-            dirpath = Path('./volume/timing/queries')
+            dirpath = Path('./output/timing/queries')
         else:
-            dirpath = Path('./volume/timing/{}/{}'.format(self.len, self.steps))
+            dirpath = Path('./output/timing/{}/{}'.format(self.len, self.steps))
         dirpath.mkdir(parents=True, exist_ok=True)
         filename = dirpath / '{}.{}.csv'.format(self.name, datetime.datetime.now())
 
